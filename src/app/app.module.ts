@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HomepageModule } from './modules/homepage/homepage.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { UploadModule } from './modules/upload/upload.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { MaterialModule } from './material.module';
     BrowserModule,
     AppRoutingModule,
     HomepageModule,
+    UploadModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule
   ],

@@ -29,7 +29,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle'
     MatProgressSpinnerModule,
     MatCardModule,
     MatDialogModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
   exports: [
     MatNativeDateModule,
