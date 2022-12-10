@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ReportModule } from './modules/report/report.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HomepageModule,
     UploadModule,
+    ReportModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule

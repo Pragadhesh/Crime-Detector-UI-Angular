@@ -15,4 +15,9 @@ export class TranscriptService {
         return this.http.post(`${BASE_URL}${API.ADD_TRANSCRIPT}`,body)
     }
 
+    getTranscripts()
+    {
+        return this.http.get(`${BASE_URL}${API.GET_TRANSCRIPTS}`)
+    }
+
 }

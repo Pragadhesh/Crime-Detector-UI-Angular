@@ -1,0 +1,28 @@
+<div class="flex flex-col w-full h-full">
+    <div class="flex w-full h-20 bg-gray-100">
+        <div class="flex justify-between w-full h-full">
+            <div class="flex h-full pl-12 items-center text-blue-900 text-3xl font-dancingscript ">
+                Detective AI
+            </div>
+        </div>
+        <div class="flex pr-5 justify-center h-full w-60 items-center">
+            <button mat-button color="primary" class="flex w-20 text-lg font-noto" [routerLink]="['/']">Home</button>
+        </div>
+    </div>
+    
+    <div class="flex flex-col w-full items-center" *ngIf="!isLoading && reports.length > 0">
+        <div class="flex w-6/12 pt-5" *ngFor="let info of reports; let i=index">
+          <mat-card class="flex w-full">
+            <div class="flex flex-row justify-between">
+              <div class="flex flex-col items-center justify-center pl-3">
+                <div class="flex flex-row w-full font-medium text-blue-900">
+                  <mat-label class="flex text-base">{{info.filename}}</mat-label>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-4 items-center">
+                <button  mat-flat-button color="accent" class="flex h-11">View Details</button>
+            </div>
+            </div>
+          </mat-card>
+    </div>
+</div>
