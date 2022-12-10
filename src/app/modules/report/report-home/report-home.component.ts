@@ -27,4 +27,5 @@ export class ReportHomeComponent implements OnInit {
       )
       this.isLoading = false
     }
+
   }
