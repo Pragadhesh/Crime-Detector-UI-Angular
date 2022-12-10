@@ -20,4 +20,9 @@ export class TranscriptService {
         return this.http.get(`${BASE_URL}${API.GET_TRANSCRIPTS}`)
     }
 
+    getTranscriptDetails(id:any)
+    {
+        return this.http.get(`${BASE_URL}${API.GET_TRANSCRIPTS}/${id}`)
+    }
+
 }

@@ -15,4 +15,73 @@
     <div class="flex w-full h-full justify-center items-center" *ngIf="isLoading">
         <mat-spinner></mat-spinner>
     </div>
+
+    <div *ngIf="transcriptStatus && !isLoading" class="flex flex-col w-full h-full">
+
+        <div class="flex flex-row w-full justify-end pr-16 pt-5" *ngIf="content_safety_results.length>0">
+            <mat-label class="flex text-3xl font-dancingscript text-red-600 items-end">Malicious</mat-label>
+            <mat-label class="flex pl-4 w-12 h-12 pt-3 items-end justify-center">
+            <img mat-card-image src="assets/images/warning.png" class="flex w-8 h-8 items-end" >
+            </mat-label>
+        </div>
+
+        <div class="flex flex-row w-full justify-end pr-16 pt-5" *ngIf="content_safety_results.length==0">
+            <mat-label class="flex text-3xl font-dancingscript text-blue-400 items-end">Normal</mat-label>
+            <mat-label class="flex pl-4 w-12 h-8 pt-3 items-end">
+            <img mat-card-image src="assets/images/verified_icon.jpg" class="flex w-12 h-8 items-end" >
+            </mat-label>
+        </div>
+
+        <div class="flex text-2xl pl-10 pt-10 pr-10 font-noto text-pink-500">
+            Summary
+        </div>
+
+        <div class="flex text-base pl-16 pt-5 pr-10 font-mono">
+            {{summary}}
+        </div>
+
+        <div class="flex text-2xl pl-10 pt-5 pr-10 font-noto text-pink-500">
+            Highlights
+        </div>
+
+        <div class="grid grid-cols-7 gap-4 pt-8 pl-16 pr-10" >
+            <div *ngFor="let highlight of highlighted_results; let i=index">
+            <button *ngIf="i%2==0" class="flex pt-5 justify-start w-full" mat-flat-button color="primary">{{highlight.text}}</button>
+            <button *ngIf="i%2!=0" class="flex pt-5 justify-start w-full" mat-flat-button color="accent">{{highlight.text}}</button>
+            </div>
+        </div>
+
+        <div *ngIf="content_safety_results.length>0" class="flex text-2xl pl-10 pt-5 pr-10 font-noto text-pink-500">
+            Content Safety Results
+        </div>
+
+        <div *ngIf="content_safety_results.length>0" class="grid grid-cols-7 gap-4 pt-8 pl-16 pr-10" >
+            <div *ngFor="let content of content_safety_results; let i=index">
+            <button class="flex pt-5 justify-start w-full" mat-flat-button color="warn">{{content.label}}</button>
+            </div>
+        </div>
+
+        <div class="flex text-2xl pl-10 pt-5 pr-10 font-noto text-pink-500">
+            IAB Categories Results
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 pt-8 pl-16 pr-10">
+            <div *ngFor="let iab of iab_results; let i=index">
+            <div class="flex text-blue-900 text-xl font-normal" *ngIf="i<3">
+                {{iab.label}}
+            </div>
+            </div>
+        </div>
+
+        <div class="flex text-2xl pl-10 pr-10 font-noto text-pink-500">
+            Full transcript
+        </div>
+
+        <div class="flex text-base pl-16 pt-5 pr-10 pb-5 font-mono">
+            {{audio_transcript}}
+        </div>
+
+
+    </div>
+
 </div>
