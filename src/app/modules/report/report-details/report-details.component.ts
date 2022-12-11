@@ -4,6 +4,7 @@ import { TranscriptDetails } from 'src/app/interfaces/transcript.interface';
 import { TranscriptService } from 'src/app/services/transcript.service';
 
 import { ChartDataset, ChartOptions } from 'chart.js';
+import { an } from 'chart.js/dist/chunks/helpers.core';
 
 interface timestamp {
   start: number,
@@ -27,6 +28,14 @@ interface iab {
   relevance: number
 }
 
+interface sentiment_analysis {
+  text: string,
+  start: number,
+  end: number,
+  sentiment: string,
+  confidence: number
+}
+
 
 @Component({
   selector: 'app-report-details',
@@ -44,13 +53,15 @@ export class ReportDetailsComponent implements OnInit {
   iab_results: iab[] = []
   content_safety_results: content_safety[] = []
   highlighted_results: highlight[] = []
-
+  sentiment_analysis_results: sentiment_analysis[] = []
 
   transcript_details: TranscriptDetails | undefined
 
   safety_data: any
   highlights_data: any
   iab_results_data: any
+
+  sentiment_analysis_data: any
 
   public chartoptions: ChartOptions = {
     plugins: {
@@ -59,6 +70,8 @@ export class ReportDetailsComponent implements OnInit {
       }
     }
   }
+
+  public sentiment_chart_options: ChartOptions = {}
 
   constructor(private route: ActivatedRoute,private transcript: TranscriptService) {
    }
@@ -95,6 +108,9 @@ export class ReportDetailsComponent implements OnInit {
         //console.log(this.transcript_details?.content_safety_labels.results[0].labels)
         this.content_safety_results = this.transcript_details?.content_safety_labels.results[0].labels!;
         console.log(this.content_safety_results)
+
+        this.sentiment_analysis_results = this.transcript_details?.sentiment_analysis_results!;
+        console.log(this.sentiment_analysis_results)
 
         if(this.content_safety_results.length > 0)
         {
@@ -148,6 +164,73 @@ export class ReportDetailsComponent implements OnInit {
               hoverOffset: 4,
             }]
           };
+        }
+
+        if(this.sentiment_analysis_results.length > 0)
+        {
+          let sen_labels = []
+          let sen_data = []
+
+          for (let i = 0; i < this.sentiment_analysis_results.length; i++) {
+            sen_labels.push(this.sentiment_analysis_results[i].text)
+            sen_data.push({
+              x: this.sentiment_analysis_results[i].text,
+              y: this.sentiment_analysis_results[i].sentiment,
+              r: this.sentiment_analysis_results[i].confidence * 10
+            })
+          }
+
+          var bubbleBackgroundColor = function() {
+                      return 'rgba(255, 206, 86, 0.2)'
+            };
+            var bubbleBorderColor = function() {
+                      return 'rgba(255, 206, 86, 1)'
+            };
+          let datasets = [{
+            label: "Sentiment",
+            data: sen_data,
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: bubbleBackgroundColor(),
+            borderColor: bubbleBorderColor(),
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(153, 102, 155, 0.2)",
+            pointHoverBorderColor: "rgba(153, 102, 155, 1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+          }]
+
+          
+        this.sentiment_chart_options = {
+          responsive: true,
+          scales: {
+              y: {
+                  type: 'category',
+                  labels: ["POSITIVE","NEUTRAL","NEGATIVE"]
+              },
+              x: {
+                type: 'category',
+                labels: sen_labels,
+                display: false
+              }
+            }
+        }
+
+        this.sentiment_analysis_data = {
+          animation: {
+            duration: 10
+          },
+          datasets: datasets
+        };
+
         }
 
         this.isLoading = false

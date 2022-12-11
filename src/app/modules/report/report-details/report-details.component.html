@@ -1,8 +1,8 @@
 <div class="flex flex-col w-full h-full">
-    <div class="flex w-full h-5/12 bg-gray-100">
-        <div class="flex justify-between w-full h-full">
-            <div class="flex h-full pl-12 items-center text-blue-900 text-3xl font-dancingscript ">
-                Detective AI
+    <div class="flex w-full h-20 bg-gray-100">
+        <div class="flex justify-between w-full h-20">
+            <div class="flex pl-12 items-center text-blue-900 text-3xl font-dancingscript ">
+                Crime Detector
             </div>
         </div>
         <div class="flex pr-5 justify-center h-full w-60 items-center">
@@ -19,16 +19,16 @@
     <div *ngIf="transcriptStatus && !isLoading" class="flex flex-col w-full h-full">
 
         <div class="flex flex-row w-full justify-end pr-16 pt-5" *ngIf="content_safety_results.length>0">
-            <mat-label class="flex text-3xl font-dancingscript text-red-600 items-center">Malicious</mat-label>
+            <mat-label class="flex text-5xl font-dancingscript text-red-600 items-center">Malicious</mat-label>
             <mat-label class="flex pl-4 w-12 h-12 pt-3 items-end">
             <img mat-card-image src="assets/images/warning.png" class="flex w-8 h-8 items-end" >
             </mat-label>
         </div>
 
         <div class="flex flex-row w-full justify-end pr-16 pt-5" *ngIf="content_safety_results.length==0">
-            <mat-label class="flex text-3xl font-dancingscript text-blue-400 items-end">Normal</mat-label>
-            <mat-label class="flex pl-4 w-12 h-8 pt-3 items-end">
-            <img mat-card-image src="assets/images/verified_icon.jpg" class="flex w-12 h-8 items-end" >
+            <mat-label class="flex text-5xl font-dancingscript text-blue-400 items-end">Normal</mat-label>
+            <mat-label class="flex pl-4 w-12 h-12 pt-3 items-end">
+            <img mat-card-image src="assets/images/verified_icon.jpg" class="flex h-12 w-16 items-end" >
             </mat-label>
         </div>
 
@@ -40,38 +40,16 @@
             {{summary}}
         </div>
 
-        
-        <div class="grid grid-cols-3 gap-4 pt-10 pr-10 pl-10">
-            <div class="flex flex-col" *ngIf="content_safety_results.length>0">
-                <div class="flex text-2xl font-noto text-pink-500 justify-center">
-                    Content Safety
+        <div class="flex w-full pl-10 pr-10 pt-10 pb-10 h-80" *ngIf="sentiment_analysis_results.length>0">
+            <div class="flex flex-col w-full h-full">
+                <div class="flex text-2xl font-noto text-pink-500 justify-start">
+                    Sentiment Analysis
                 </div>
-                <div class="flex w-full h-full justify-center pt-2">
-                    <canvas baseChart type="doughnut" [data]="safety_data" [options]="chartoptions">
+                <div class="flex w-full h-full justify-center pt-2 items-center">
+                    <canvas baseChart type="bubble" [data]="sentiment_analysis_data" [options]="sentiment_chart_options">
                     </canvas>
                 </div>
             </div>
-
-            <div class="flex flex-col" *ngIf="highlighted_results.length>0">
-                <div class="flex text-2xl font-noto text-pink-500 justify-center">
-                    Auto Highlighted Results
-                </div>
-                <div class="flex w-full h-full justify-center pt-2">
-                    <canvas baseChart type="pie" [data]="highlights_data" [options]="chartoptions">
-                    </canvas>
-                </div>
-            </div>
-
-            <div class="flex flex-col" *ngIf="iab_results.length>0">
-                <div class="flex text-2xl font-noto text-pink-500 justify-center">
-                    IAB Results
-                </div>
-                <div class="flex w-full h-full justify-center pt-2">
-                    <canvas baseChart type="doughnut" [data]="iab_results_data" [options]="chartoptions">
-                    </canvas>
-                </div>
-            </div>
-    
         </div>
 
         <div *ngIf="content_safety_results.length>0" class="flex text-2xl pl-10 pt-5 pr-10 font-noto text-pink-500">
@@ -105,6 +83,39 @@
                 {{iab.label}}
             </div>
             </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 pt-10 pr-10 pl-10">
+            <div class="flex flex-col" *ngIf="content_safety_results.length>0">
+                <div class="flex text-2xl font-noto text-pink-500 justify-center">
+                    Content Safety
+                </div>
+                <div class="flex w-full h-full justify-center pt-2">
+                    <canvas baseChart type="doughnut" [data]="safety_data" [options]="chartoptions">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="flex flex-col" *ngIf="highlighted_results.length>0">
+                <div class="flex text-2xl font-noto text-pink-500 justify-center">
+                    Auto Highlighted Results
+                </div>
+                <div class="flex w-full h-full justify-center pt-2">
+                    <canvas baseChart type="pie" [data]="highlights_data" [options]="chartoptions">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="flex flex-col" *ngIf="iab_results.length>0">
+                <div class="flex text-2xl font-noto text-pink-500 justify-center">
+                    IAB Results
+                </div>
+                <div class="flex w-full h-full justify-center pt-2">
+                    <canvas baseChart type="doughnut" [data]="iab_results_data" [options]="chartoptions">
+                    </canvas>
+                </div>
+            </div>
+    
         </div>
 
         <div class="flex text-2xl pl-10 pr-10 font-noto text-pink-500">

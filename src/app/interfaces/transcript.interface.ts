@@ -49,6 +49,14 @@ interface content_safety_labels {
     }]
 }
 
+interface sentiment_analysis {
+    text: string,
+    start: number,
+    end: number,
+    sentiment: string,
+    confidence: number
+}
+
 export interface TranscriptDetails {
     
     id: string,
@@ -58,5 +66,5 @@ export interface TranscriptDetails {
     auto_highlights_result: auto_highlight
     iab_categories_result: iab_category
     content_safety_labels: content_safety_labels
-
+    sentiment_analysis_results: sentiment_analysis[]
 }
