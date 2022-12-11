@@ -1,5 +1,5 @@
 <div class="flex flex-col w-full h-full">
-    <div class="flex w-full h-20 bg-gray-100">
+    <div class="flex w-full h-5/12 bg-gray-100">
         <div class="flex justify-between w-full h-full">
             <div class="flex h-full pl-12 items-center text-blue-900 text-3xl font-dancingscript ">
                 Detective AI
@@ -19,8 +19,8 @@
     <div *ngIf="transcriptStatus && !isLoading" class="flex flex-col w-full h-full">
 
         <div class="flex flex-row w-full justify-end pr-16 pt-5" *ngIf="content_safety_results.length>0">
-            <mat-label class="flex text-3xl font-dancingscript text-red-600 items-end">Malicious</mat-label>
-            <mat-label class="flex pl-4 w-12 h-12 pt-3 items-end justify-center">
+            <mat-label class="flex text-3xl font-dancingscript text-red-600 items-center">Malicious</mat-label>
+            <mat-label class="flex pl-4 w-12 h-12 pt-3 items-end">
             <img mat-card-image src="assets/images/warning.png" class="flex w-8 h-8 items-end" >
             </mat-label>
         </div>
@@ -40,15 +40,38 @@
             {{summary}}
         </div>
 
-        <div class="flex text-2xl pl-10 pt-5 pr-10 font-noto text-pink-500">
-            Highlights
-        </div>
-
-        <div class="grid grid-cols-7 gap-4 pt-8 pl-16 pr-10" >
-            <div *ngFor="let highlight of highlighted_results; let i=index">
-            <button *ngIf="i%2==0" class="flex pt-5 justify-start w-full" mat-flat-button color="primary">{{highlight.text}}</button>
-            <button *ngIf="i%2!=0" class="flex pt-5 justify-start w-full" mat-flat-button color="accent">{{highlight.text}}</button>
+        
+        <div class="grid grid-cols-3 gap-4 pt-10 pr-10 pl-10">
+            <div class="flex flex-col" *ngIf="content_safety_results.length>0">
+                <div class="flex text-2xl font-noto text-pink-500 justify-center">
+                    Content Safety
+                </div>
+                <div class="flex w-full h-full justify-center pt-2">
+                    <canvas baseChart type="doughnut" [data]="safety_data" [options]="chartoptions">
+                    </canvas>
+                </div>
             </div>
+
+            <div class="flex flex-col" *ngIf="highlighted_results.length>0">
+                <div class="flex text-2xl font-noto text-pink-500 justify-center">
+                    Auto Highlighted Results
+                </div>
+                <div class="flex w-full h-full justify-center pt-2">
+                    <canvas baseChart type="pie" [data]="highlights_data" [options]="chartoptions">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="flex flex-col" *ngIf="iab_results.length>0">
+                <div class="flex text-2xl font-noto text-pink-500 justify-center">
+                    IAB Results
+                </div>
+                <div class="flex w-full h-full justify-center pt-2">
+                    <canvas baseChart type="doughnut" [data]="iab_results_data" [options]="chartoptions">
+                    </canvas>
+                </div>
+            </div>
+    
         </div>
 
         <div *ngIf="content_safety_results.length>0" class="flex text-2xl pl-10 pt-5 pr-10 font-noto text-pink-500">
@@ -58,6 +81,17 @@
         <div *ngIf="content_safety_results.length>0" class="grid grid-cols-7 gap-4 pt-8 pl-16 pr-10" >
             <div *ngFor="let content of content_safety_results; let i=index">
             <button class="flex pt-5 justify-start w-full" mat-flat-button color="warn">{{content.label}}</button>
+            </div>
+        </div>
+
+        <div class="flex text-2xl pl-10 pt-5 pr-10 font-noto text-pink-500">
+            Highlights
+        </div>
+
+        <div class="grid grid-cols-7 gap-4 pt-8 pl-16 pr-10" >
+            <div *ngFor="let highlight of highlighted_results; let i=index">
+            <button *ngIf="i%2==0" class="flex pt-5 justify-start w-full" mat-flat-button color="primary">{{highlight.text}}</button>
+            <button *ngIf="i%2!=0" class="flex pt-5 justify-start w-full" mat-flat-button color="accent">{{highlight.text}}</button>
             </div>
         </div>
 
@@ -80,7 +114,6 @@
         <div class="flex text-base pl-16 pt-5 pr-10 pb-5 font-mono">
             {{audio_transcript}}
         </div>
-
 
     </div>
 

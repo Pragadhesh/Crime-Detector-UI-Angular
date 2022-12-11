@@ -3,6 +3,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { TranscriptDetails } from 'src/app/interfaces/transcript.interface';
 import { TranscriptService } from 'src/app/services/transcript.service';
 
+import { ChartDataset, ChartOptions } from 'chart.js';
+
 interface timestamp {
   start: number,
   end: number
@@ -45,7 +47,21 @@ export class ReportDetailsComponent implements OnInit {
 
 
   transcript_details: TranscriptDetails | undefined
-  constructor(private route: ActivatedRoute,private transcript: TranscriptService) { }
+
+  safety_data: any
+  highlights_data: any
+  iab_results_data: any
+
+  public chartoptions: ChartOptions = {
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  }
+
+  constructor(private route: ActivatedRoute,private transcript: TranscriptService) {
+   }
 
   ngOnInit(): void {
 
@@ -80,6 +96,60 @@ export class ReportDetailsComponent implements OnInit {
         this.content_safety_results = this.transcript_details?.content_safety_labels.results[0].labels!;
         console.log(this.content_safety_results)
 
+        if(this.content_safety_results.length > 0)
+        {
+          let safety_labels = []
+          let safety_data = []
+          for (let i = 0; i < this.content_safety_results.length; i++) {
+            safety_labels.push(this.content_safety_results[i].label)
+            safety_data.push(this.content_safety_results[i].severity)
+          }
+          this.safety_data = {
+            labels: safety_labels,
+            datasets: [{
+              label: 'Severity',
+              data: safety_data,
+              hoverOffset: 4
+            }]
+          };
+        }
+
+        if(this.highlighted_results.length > 0)
+        {
+          let highlight_labels = []
+          let highlight_data = []
+          for (let i = 0; i < this.highlighted_results.length; i++) {
+            highlight_labels.push(this.highlighted_results[i].text)
+            highlight_data.push(this.highlighted_results[i].count)
+          }
+          this.highlights_data = {
+            labels: highlight_labels,
+            datasets: [{
+              label: 'Count',
+              data: highlight_data,
+              hoverOffset: 4
+            }]
+        }
+        }
+
+        if(this.iab_results.length > 0)
+        {
+          let iab_labels = []
+          let iab_data = []
+          for (let i = 0; i < this.iab_results.length; i++) {
+            iab_labels.push(this.iab_results[i].label)
+            iab_data.push(this.iab_results[i].relevance)
+          }
+          this.iab_results_data = {
+            labels: iab_labels,
+            datasets: [{
+              label: 'Relevance',
+              data: iab_data,
+              hoverOffset: 4,
+            }]
+          };
+        }
+
         this.isLoading = false
       },
       err => {
@@ -88,7 +158,6 @@ export class ReportDetailsComponent implements OnInit {
         this.isLoading = false
       }
     )
-    
   }
 
 

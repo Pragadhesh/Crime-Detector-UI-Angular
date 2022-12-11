@@ -9,6 +9,7 @@ import { MaterialModule } from './material.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReportModule } from './modules/report/report.module';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ReportModule } from './modules/report/report.module';
     UploadModule,
     ReportModule,
     HttpClientModule,
+    NgChartsModule,
     BrowserAnimationsModule,
     MaterialModule
   ],
